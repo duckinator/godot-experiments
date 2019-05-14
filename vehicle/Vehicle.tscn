@@ -1,0 +1,70 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Vehicle.gd" type="Script" id=1]
+
+[sub_resource type="CubeMesh" id=1]
+size = Vector3( 6, 1, 3 )
+
+[sub_resource type="ConvexPolygonShape" id=2]
+points = PoolVector3Array( -3, 0.5, 1.5, 3, 0.5, -1.5, 3, 0.5, 1.5, -3, 0.5, -1.5, -3, -0.5, 1.5, 3, -0.5, -1.5, 3, -0.5, 1.5, -3, -0.5, -1.5, 3, 0.5, 1.5, -3, 0.5, -1.5, 3, 0.5, -1.5, -3, 0.5, 1.5, 3, -0.5, 1.5, -3, -0.5, -1.5, 3, -0.5, -1.5, -3, -0.5, 1.5, 3, 0.5, 1.5, -3, -0.5, 1.5, -3, 0.5, 1.5, 3, -0.5, 1.5, 3, 0.5, -1.5, -3, -0.5, -1.5, -3, 0.5, -1.5, 3, -0.5, -1.5 )
+
+[sub_resource type="CylinderMesh" id=3]
+height = 0.5
+
+[node name="Vehicle" type="VehicleBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+engine_force = 50.0
+script = ExtResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 2 )
+
+[node name="FrontLeftWheel" type="VehicleWheel" parent="."]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2, 0, -2 )
+use_as_traction = true
+use_as_steering = true
+wheel_radius = 1.0
+
+[node name="MeshInstance" type="MeshInstance" parent="FrontLeftWheel"]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="FrontRightWheel" type="VehicleWheel" parent="."]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2, 0, 2 )
+use_as_traction = true
+use_as_steering = true
+wheel_radius = 1.0
+
+[node name="MeshInstance" type="MeshInstance" parent="FrontRightWheel"]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="RearLeftWheel" type="VehicleWheel" parent="."]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2, 0, -2 )
+use_as_traction = true
+wheel_radius = 1.0
+
+[node name="MeshInstance" type="MeshInstance" parent="RearLeftWheel"]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="RearRightWheel" type="VehicleWheel" parent="."]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2, 0, 2 )
+use_as_traction = true
+wheel_radius = 1.0
+
+[node name="MeshInstance" type="MeshInstance" parent="RearRightWheel"]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 0.173648, 0.696364, -0.696364, 0, 0.707107, 0.707107, 0.984808, -0.122788, 0.122788, -10, 8, 4 )
+current = true
