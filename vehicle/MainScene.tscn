@@ -3,32 +3,32 @@
 [ext_resource path="res://generic-panel-01.png" type="Texture" id=1]
 [ext_resource path="res://Vehicle.tscn" type="PackedScene" id=2]
 
-[sub_resource type="Environment" id=4]
+[sub_resource type="Environment" id=1]
 ambient_light_color = Color( 0.811765, 0.811765, 0.811765, 1 )
 
-[sub_resource type="CubeMesh" id=1]
+[sub_resource type="CubeMesh" id=2]
 size = Vector3( 1000, 2, 1000 )
 
-[sub_resource type="SpatialMaterial" id=2]
+[sub_resource type="SpatialMaterial" id=3]
 albedo_texture = ExtResource( 1 )
 uv1_triplanar = true
 
-[sub_resource type="ConvexPolygonShape" id=5]
+[sub_resource type="ConvexPolygonShape" id=4]
 points = PoolVector3Array( -500, 1, 500, 500, 1, -500, 500, 1, 500, -500, 1, -500, -500, -1, 500, 500, -1, -500, 500, -1, 500, -500, -1, -500, 500, 1, 500, -500, 1, -500, 500, 1, -500, -500, 1, 500, 500, -1, 500, -500, -1, -500, 500, -1, -500, -500, -1, 500, 500, 1, 500, -500, -1, 500, -500, 1, 500, 500, -1, 500, 500, 1, -500, -500, -1, -500, -500, 1, -500, 500, -1, -500 )
 
 [node name="MainScene" type="Spatial"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 4 )
+environment = SubResource( 1 )
 
 [node name="Ground" type="MeshInstance" parent="."]
-mesh = SubResource( 1 )
-material/0 = SubResource( 2 )
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )
 
 [node name="StaticBody" type="StaticBody" parent="Ground"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Ground/StaticBody"]
-shape = SubResource( 5 )
+shape = SubResource( 4 )
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, -0.5, 0.5, -150, 150, 150 )
