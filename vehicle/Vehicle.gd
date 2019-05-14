@@ -8,10 +8,16 @@ const STEERING_LEFT = 0.5
 const STEERING_RIGHT = -STEERING_LEFT
 const STEERING_RESET_MULTIPLIER = 0.8
 
-func _ready():
-	pass
-
 func _process(delta):
+	# Hack until we add an actual Player scene.
+	process_vehicle_movement(null, delta)
+
+# This is called by the Player, if they're currently in the vehicle.
+func process_vehicle_movement(player, delta):
+	if Input.is_action_pressed("activate"):
+		player.leave_vehicle(self)
+		return
+	
 	if Input.is_action_pressed("hard_stop"):
 		hard_stop()
 		return
@@ -36,6 +42,5 @@ func adjust_acceleration(val):
 	brake = 0
 
 func hard_stop():
-	print("HARD STOP")
 	engine_force = 0
 	brake = 5000
