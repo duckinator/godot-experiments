@@ -5,3 +5,7 @@ export_presets.cfg
 
 # Mono-specific ignores
 .mono/
+
+# Export-related ignores
+*.pck
+*.x86_64
