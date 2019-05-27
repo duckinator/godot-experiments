@@ -12,8 +12,10 @@ const DEFAULT_MAX_PLAYERS = 20
 
 var players = {}
 
+var rng = RandomNumberGenerator.new()
+
 # Default network game settings -- player name is "Player<random number>"
-var settings = { name = "Player" + str(rand_range(1, 9999)) }
+var settings = { name = "Player" + str(rng.randi_range(1, 9999)) }
 
 
 func setup():
