@@ -1,5 +1,8 @@
 extends Node
 
+signal peer_connected
+signal peer_disconnected
+
 var network_peer = null setget set_network_peer, get_network_peer
 
 var remote_address = null
@@ -15,11 +18,15 @@ var players = {}
 var rng = RandomNumberGenerator.new()
 
 # Default network game settings -- player name is "Player<random number>"
-var settings = { name = "Player" + str(rng.randi_range(1, 9999)) }
+var settings = {}
+
+func _ready():
+	rng.randomize()
+	settings["name"] = "Player" + str(rng.randi_range(1, 9999))
 
 
 func setup():
-	var tree =get_tree()
+	var tree = get_tree()
 	tree.connect("network_peer_connected", self, "peer_connected")
 	tree.connect("network_peer_disconnected", self, "peer_disconnected")
 	tree.connect("connected_to_server", self, "connected_to_server")
@@ -116,7 +123,9 @@ func peer_connected(id):
 
 func peer_disconnected(id):
 	print(str(players[id]["name"]) + " disconnected.")
+	var info = players[id]
 	players.erase(id)
+	emit_signal("peer_disconnected", id, info)
 
 func connected_to_server():
     # Only called on clients, not server. Send my ID and info to the server.
@@ -146,3 +155,5 @@ remote func register_player(id, info):
 	print("PLAYERS:")
 	for peer_id in players.keys():
 		print("  " + str(players[peer_id]["name"]))
+	
+	emit_signal("peer_disconnected", id, info)

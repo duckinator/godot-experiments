@@ -9,6 +9,8 @@ onready var server_information = $ServerInformation
 var is_server = false
 
 func _ready():
+	var tree = get_tree()
+	
 	is_server = get_tree().get_meta("starting_server")
 	Network.setup()
 	if is_server:
@@ -17,23 +19,24 @@ func _ready():
 	else:
 		Network.join("127.0.0.1") # TODO: Don't hard-code address.
 		server_information.text = str(Network.remote_address) + ":" + str(Network.remote_port)
-
-func _process(delta):
-	for id in Network.players.keys():
-		var player_name = Network.players[id]["name"]
-		if not vbox.has_node(player_name):
-			var label = template.duplicate()
-			label.visible = true
-			label.name = player_name
-			label.text = player_name
-			vbox.add_child(label)
 	
-	for label in vbox.get_children():
-		if label.name == "TemplateLabel":
-			continue
-		for id in Network.players.keys():
-			if Network.players[id]["name"] == label.name:
-				continue
-		# If we get here, it should be a disconnected client.
-		vbox.remove_child(label)
-		label.queue_free()
+	Network.connect("peer_connected", self, "peer_connected")
+	Network.connect("peer_disconnected", self, "peer_disconnected")
+
+func peer_connected(id, info):
+	var player_name = info["name"]
+	print("PEER CONNECTED: " + player_name)
+	
+	if vbox.has_node(str(id)):
+		return
+	
+	var label = template.duplicate()
+	label.visible = true
+	label.name = str(id)
+	label.text = player_name
+	vbox.add_child(label)
+
+func peer_disconnected(id, info):
+	print("PEER DISCONNECTED: " + info["name"])
+	if vbox.has_node(str(id)):
+		vbox.remove_child(get_node(str(id)))
