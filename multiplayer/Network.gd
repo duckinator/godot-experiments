@@ -44,10 +44,15 @@ func add_self_if_needed():
 	if is_server():
 		register_player(1, settings)
 
+# Returns a nice representation of the remote address, including port.
+func friendly_remote_address():
+	return str(remote_address) + ":" + str(remote_port)
+
 # Sets the local network peer to `peer` (a NetworkedMultiplayerENet instance).
 #
 # Also stores it, so get_network_peer() can retrieve it later.
 func set_network_peer(peer):
+	network_peer = peer
 	var tree = get_tree()
 	tree.set_network_peer(peer)
 	tree.set_meta("network_peer", peer)
@@ -131,7 +136,7 @@ func quit():
 
 # Runs when each client connects.
 # Currently unused. register_player() emits the "peer_connected" event.
-func peer_connected(id):
+func peer_connected(_id):
 	pass
 
 # Runs when a client disconnects.

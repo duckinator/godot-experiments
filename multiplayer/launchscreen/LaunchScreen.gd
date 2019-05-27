@@ -14,4 +14,4 @@ func _ready():
 
 func start(is_server):
 	get_tree().set_meta("starting_server", is_server)
-	get_tree().change_scene(LOBBY_SCENE)
+	return get_tree().change_scene(LOBBY_SCENE)

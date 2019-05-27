@@ -10,8 +10,6 @@ onready var server_information = $ServerInformation
 var is_server = false
 
 func _ready():
-	var tree = get_tree()
-	
 	$AcceptDialog.connect("confirmed", self, "go_to_launch_screen")
 	
 	is_server = get_tree().get_meta("starting_server")
@@ -21,7 +19,7 @@ func _ready():
 		server_information.text = "Listening on port " + str(Network.local_port)
 	else:
 		Network.join("127.0.0.1") # TODO: Don't hard-code address.
-		server_information.text = str(Network.remote_address) + ":" + str(Network.remote_port)
+		server_information.text = Network.friendly_remote_address()
 	
 	Network.connect("peer_connected", self, "peer_connected")
 	Network.connect("peer_disconnected", self, "peer_disconnected")
@@ -47,7 +45,6 @@ func add_existing_peers():
 
 func peer_connected(id, info):
 	var player_name = info["name"]
-	print("PEER CONNECTED: " + player_name)
 	
 	if vbox.has_node(str(id)):
 		return
@@ -58,8 +55,7 @@ func peer_connected(id, info):
 	label.text = player_name
 	vbox.add_child(label)
 
-func peer_disconnected(id, info):
-	print("PEER DISCONNECTED: " + info["name"])
+func peer_disconnected(id, _info):
 	for node in vbox.get_children():
 		if node.name == str(id):
 			vbox.remove_child(node)
@@ -67,4 +63,4 @@ func peer_disconnected(id, info):
 
 func go_to_launch_screen():
 	Network.quit()
-	get_tree().change_scene(LAUNCH_SCREEN_SCENE)
+	return get_tree().change_scene(LAUNCH_SCREEN_SCENE)
