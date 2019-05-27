@@ -176,8 +176,11 @@ remote func register_player(id, info):
 		# Send our info the player.
 		rpc_id(id, "register_player", 1, settings)
 		
-		# Send _everyone else's_ info to the player.
+		# Keep everyone synchronized.
 		for peer_id in players.keys():
+			# Send player <peer_id>'s info to the new player.
 			rpc_id(id, "register_player", peer_id, players[peer_id])
+			# Send the new player's info to player <peer id>.
+			rpc_id(peer_id, "register_player", id, players[id])
 	
 	emit_signal("peer_connected", id, info)
