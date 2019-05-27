@@ -22,6 +22,12 @@ func _ready():
 	
 	Network.connect("peer_connected", self, "peer_connected")
 	Network.connect("peer_disconnected", self, "peer_disconnected")
+	
+	add_existing_peers()
+
+func add_existing_peers():
+	for id in Network.players.keys():
+		peer_connected(id, Network.players[id])
 
 func peer_connected(id, info):
 	var player_name = info["name"]

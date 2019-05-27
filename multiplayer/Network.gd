@@ -33,6 +33,11 @@ func setup():
 	tree.connect("connection_failed", self, "connection_failed")
 	tree.connect("server_disconnected", self, "server_disconnected")
 
+# Forces the server to include itself in the list of players.
+func add_self_if_needed():
+	if is_server():
+		register_player(1, settings)
+
 # Sets the local network peer to `peer` (a NetworkedMultiplayerENet instance).
 #
 # Also stores it, so get_network_peer() can retrieve it later.
@@ -90,6 +95,7 @@ func start_server(port=null, max_players=null):
 		printerr("ERROR: Network.start_server(): ", err)
 		return
 	set_network_peer(peer)
+	add_self_if_needed()
 
 # Connect to a server listening on `address`, port `port`.
 #
