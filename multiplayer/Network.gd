@@ -28,7 +28,7 @@ func _ready():
 	rng.randomize()
 	
 	# Player names are formatted as "Player<random number>".
-	settings["name"] = "Player" + str(rng.randi_range(1, 9999))
+	settings = { name = "Player" + str(rng.randi_range(1, 9999)) }
 
 
 # Connect signals on the scene tree to functions in this file.
