@@ -27,7 +27,7 @@ func _ready():
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
 	
-	# Player names are formatted as "Player<random number>".
+	# Default player names are formatted as "Player<random number>".
 	settings = { name = "Player" + str(rng.randi_range(1, 9999)) }
 
 
