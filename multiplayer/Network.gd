@@ -117,7 +117,7 @@ func peer_disconnected(id):
 func connected_to_server():
     # Only called on clients, not server. Send my ID and info to the server.
 	# The server will then send it to everyone else.
-    rpc("add_player", get_unique_id(), settings)
+    rpc("register_player", get_unique_id(), settings)
 
 func connection_failed():
 	print("CONNECTION FAILED -- couldn't connect at all")
@@ -125,7 +125,7 @@ func connection_failed():
 func server_disconnected():
 	print("SERVER DISCONNECTED -- the server kicked us")
 
-remote func add_player(id, info):
+remote func register_player(id, info):
 	# Store the info -- for both clients and servers.
 	players[id] = info
 	
