@@ -3,6 +3,7 @@ extends Control
 const FONT = preload("res://fonts/HackFont.tres")
 
 onready var vbox = $HBoxContainer/VBoxContainer/PlayersVBox
+onready var template = vbox.get_node("TemplateLabel")
 onready var server_information = $ServerInformation
 
 var is_server = false
@@ -21,6 +22,7 @@ func _process(delta):
 	for id in Network.players.keys():
 		var player_name = Network.players[id]["name"]
 		if not vbox.has_node(player_name):
-			var label = Label.new()
-			label.theme.font = FONT.instance()
+			var label = template.duplicate()
+			label.visible = true
+			label.text = player_name
 			vbox.add_node(label)
