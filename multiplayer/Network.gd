@@ -110,10 +110,12 @@ func quit():
 
 
 func peer_connected(id):
-	print("PEER CONNECTED: " + str(id))
+	# Runs when each client connects.
+	# Currently unused.
+	pass
 
 func peer_disconnected(id):
-	print(str(players[id]) + " disconnected.")
+	print(str(players[id]["name"]) + " disconnected.")
 	players.erase(id)
 
 func connected_to_server():

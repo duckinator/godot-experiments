@@ -27,3 +27,13 @@ func _process(delta):
 			label.name = player_name
 			label.text = player_name
 			vbox.add_child(label)
+	
+	for label in vbox.get_children():
+		if label.name == "TemplateLabel":
+			continue
+		for id in Network.players.keys():
+			if Network.players[id]["name"] == label.name:
+				continue
+		# If we get here, it should be a disconnected client.
+		vbox.remove_child(label)
+		label.queue_free()
