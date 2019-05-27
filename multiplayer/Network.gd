@@ -50,7 +50,7 @@ func parse_address(server_address):
 	if ":" in server_address:
 		var parts = server_address.split(":")
 		server_address = parts[0]
-		server_port = parts[1]
+		server_port = int(parts[1])
 	return [server_address, server_port]
 
 # Returns a nice representation of the remote address, including port.
