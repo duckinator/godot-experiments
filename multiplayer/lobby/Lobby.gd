@@ -15,7 +15,7 @@ func _ready():
 	$AcceptDialog.connect("confirmed", self, "go_to_launch_screen")
 	
 	is_server = get_tree().get_meta("starting_server")
-	Network.setup()
+	
 	if is_server:
 		Network.start_server(null, null) # TODO: Allow overriding port/max_connections
 		server_information.text = "Listening on port " + str(Network.local_port)

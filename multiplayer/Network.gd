@@ -29,11 +29,9 @@ func _ready():
 	
 	# Default player names are formatted as "Player<random number>".
 	settings = { name = "Player" + str(rng.randi_range(1, 9999)) }
-
-
-# Connect signals on the scene tree to functions in this file.
-# Some of those functions will then emit other signals.
-func setup():
+	
+	# Connect signals on the scene tree to functions in this file.
+	# Some of those functions will then emit other signals.
 	var tree = get_tree()
 	tree.connect("network_peer_connected", self, "peer_connected")
 	tree.connect("network_peer_disconnected", self, "peer_disconnected")
@@ -155,7 +153,9 @@ remote func register_player(id, info):
 	# Store the info -- for both clients and servers.
 	players[id] = info
 	
-	if is_server():
+	# We put a special-case here so that the server doesn't send info to itself (when id==1),
+	# so that we don't have to duplicate the rest of the function.
+	if is_server() and id != 1:
 		# Send our info the player.
 		rpc_id(id, "register_player", 1, settings)
 		
