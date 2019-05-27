@@ -38,3 +38,10 @@ margin_right = 300.0
 margin_bottom = 112.0
 custom_fonts/font = ExtResource( 2 )
 text = "Connect"
+
+[node name="Quit" type="Button" parent="Panel/HBoxContainer/HBoxContainer/VBoxContainer"]
+margin_top = 116.0
+margin_right = 300.0
+margin_bottom = 170.0
+custom_fonts/font = ExtResource( 2 )
+text = "Quit"
