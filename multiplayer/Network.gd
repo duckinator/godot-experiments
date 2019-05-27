@@ -156,4 +156,4 @@ remote func register_player(id, info):
 	for peer_id in players.keys():
 		print("  " + str(players[peer_id]["name"]))
 	
-	emit_signal("peer_disconnected", id, info)
+	emit_signal("peer_connected", id, info)
