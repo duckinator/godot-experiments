@@ -44,6 +44,15 @@ func add_self_if_needed():
 	if is_server():
 		register_player(1, settings)
 
+# An incredibly crude attempt at parsing a URI.
+func parse_address(server_address):
+	var server_port = null
+	if ":" in server_address:
+		var parts = server_address.split(":")
+		server_address = parts[0]
+		server_port = parts[1]
+	return [server_address, server_port]
+
 # Returns a nice representation of the remote address, including port.
 func friendly_remote_address():
 	return str(remote_address) + ":" + str(remote_port)
@@ -114,6 +123,7 @@ func start_server(port=null, max_players=null):
 # If `port` is unspecified/null, default to DEFAULT_PORT.
 func join(address, port=null):
 	players = {}
+	
 	if port == null:
 		port = DEFAULT_PORT
 	

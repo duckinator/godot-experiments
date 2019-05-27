@@ -18,30 +18,40 @@ margin_bottom = 720.0
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel/HBoxContainer"]
-margin_left = 490.0
-margin_right = 790.0
+margin_left = 399.0
+margin_right = 881.0
 margin_bottom = 720.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/HBoxContainer/HBoxContainer"]
-margin_right = 300.0
+margin_right = 482.0
 margin_bottom = 720.0
 
 [node name="StartServer" type="Button" parent="Panel/HBoxContainer/HBoxContainer/VBoxContainer"]
-margin_right = 300.0
+margin_right = 482.0
 margin_bottom = 54.0
 custom_fonts/font = ExtResource( 2 )
 text = "Start Server"
 
-[node name="StartClient" type="Button" parent="Panel/HBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/HBoxContainer/HBoxContainer/VBoxContainer"]
 margin_top = 58.0
-margin_right = 300.0
-margin_bottom = 112.0
+margin_right = 482.0
+margin_bottom = 116.0
+
+[node name="LineEdit" type="LineEdit" parent="Panel/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_right = 298.0
+margin_bottom = 58.0
+custom_fonts/font = ExtResource( 2 )
+
+[node name="StartClient" type="Button" parent="Panel/HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 302.0
+margin_right = 482.0
+margin_bottom = 58.0
 custom_fonts/font = ExtResource( 2 )
 text = "Connect"
 
 [node name="Quit" type="Button" parent="Panel/HBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 116.0
-margin_right = 300.0
-margin_bottom = 170.0
+margin_top = 120.0
+margin_right = 482.0
+margin_bottom = 174.0
 custom_fonts/font = ExtResource( 2 )
 text = "Quit"

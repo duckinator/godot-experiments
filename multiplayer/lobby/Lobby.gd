@@ -10,15 +10,20 @@ onready var server_information = $ServerInformation
 var is_server = false
 
 func _ready():
+	var tree = get_tree()
 	$AcceptDialog.connect("confirmed", self, "go_to_launch_screen")
 	
-	is_server = get_tree().get_meta("starting_server")
+	is_server = tree.get_meta("starting_server")
+	
+	var server_address = ["127.0.0.1", null]
+	if tree.has_meta("server_address") and tree.get_meta("server_address") != null:
+		server_address = Network.parse_address(tree.get_meta("server_address"))
 	
 	if is_server:
 		Network.start_server(null, null) # TODO: Allow overriding port/max_connections
 		server_information.text = "Listening on port " + str(Network.local_port)
 	else:
-		Network.join("127.0.0.1") # TODO: Don't hard-code address.
+		Network.join(server_address[0], server_address[1])
 		server_information.text = Network.friendly_remote_address()
 	
 	Network.connect("peer_connected", self, "peer_connected")
