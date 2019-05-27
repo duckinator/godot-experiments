@@ -35,8 +35,12 @@ func server_disconnected():
 
 func popup(message):
 	$AcceptDialog.dialog_text = message
-	$AcceptDialog.dialog_hide_on_ok = true
 	$AcceptDialog.popup_exclusive = true
+	
+	# Remove the close button (the X in the top-right), so people 
+	# won't be stuck forever if they accidentally close it that way.
+	$AcceptDialog.remove_child($AcceptDialog.get_close_button())
+	
 	$AcceptDialog.popup_centered()
 
 func add_existing_peers():
