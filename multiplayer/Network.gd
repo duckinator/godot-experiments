@@ -2,6 +2,8 @@ extends Node
 
 signal peer_connected
 signal peer_disconnected
+signal connection_failed
+signal server_disconnected
 
 var network_peer = null setget set_network_peer, get_network_peer
 
@@ -139,10 +141,10 @@ func connected_to_server():
     rpc("register_player", get_unique_id(), settings)
 
 func connection_failed():
-	print("CONNECTION FAILED -- couldn't connect at all")
+	emit_signal("connection_failed")
 
 func server_disconnected():
-	print("SERVER DISCONNECTED -- the server kicked us")
+	emit_signal("server_disconnected")
 
 remote func register_player(id, info):
 	# Store the info -- for both clients and servers.

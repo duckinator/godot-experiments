@@ -1,5 +1,6 @@
 extends Control
 
+const LAUNCH_SCREEN_SCENE = "res://launchscreen/LaunchScreen.tscn"
 const FONT = preload("res://fonts/HackFont.tres")
 
 onready var vbox = $HBoxContainer/VBoxContainer/PlayersVBox
@@ -10,6 +11,8 @@ var is_server = false
 
 func _ready():
 	var tree = get_tree()
+	
+	$AcceptDialog.connect("confirmed", self, "go_to_launch_screen")
 	
 	is_server = get_tree().get_meta("starting_server")
 	Network.setup()
@@ -22,8 +25,21 @@ func _ready():
 	
 	Network.connect("peer_connected", self, "peer_connected")
 	Network.connect("peer_disconnected", self, "peer_disconnected")
-	
+	Network.connect("connection_failed", self, "connection_failed")
+	Network.connect("server_disconnected", self, "server_disconnected")
 	add_existing_peers()
+
+func connection_failed():
+	popup("Failed to connect to server.")
+
+func server_disconnected():
+	popup("Server closed the connection.")
+
+func popup(message):
+	$AcceptDialog.dialog_text = message
+	$AcceptDialog.dialog_hide_on_ok = true
+	$AcceptDialog.popup_exclusive = true
+	$AcceptDialog.popup_centered()
 
 func add_existing_peers():
 	for id in Network.players.keys():
@@ -47,3 +63,8 @@ func peer_disconnected(id, info):
 	for node in vbox.get_children():
 		if node.name == str(id):
 			vbox.remove_child(node)
+
+
+func go_to_launch_screen():
+	Network.quit()
+	get_tree().change_scene(LAUNCH_SCREEN_SCENE)
