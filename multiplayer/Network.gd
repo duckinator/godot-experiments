@@ -85,6 +85,7 @@ func is_server():
 # If `port` is unspecified/null, default to DEFAULT_PORT.
 # If `max_players` is unspecified/null, default to DEFAULT_MAX_PLAYERS.
 func start_server(port=null, max_players=null):
+	players = {}
 	if port == null:
 		port = DEFAULT_PORT
 	if max_players == null:
@@ -107,6 +108,7 @@ func start_server(port=null, max_players=null):
 #
 # If `port` is unspecified/null, default to DEFAULT_PORT.
 func join(address, port=null):
+	players = {}
 	if port == null:
 		port = DEFAULT_PORT
 	
