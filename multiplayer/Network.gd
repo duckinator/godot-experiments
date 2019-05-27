@@ -78,7 +78,7 @@ func start_server(port=null, max_players=null):
 	
 	var err = peer.create_server(port, max_players)
 	if err != OK:
-		printerr("ERROR: ", err)
+		printerr("ERROR: Network.start_server(): ", err)
 		return
 	set_network_peer(peer)
 
@@ -95,7 +95,10 @@ func join(address, port=null):
 	local_port = null
 	
 	var peer = NetworkedMultiplayerENet.new()
-	peer.create_client(address, port)
+	var err = peer.create_client(address, port)
+	if err != OK:
+		printerr("ERROR: Network.join(): ", err)
+		return
 	set_network_peer(peer)
 
 # Disconnect the game from the network.
