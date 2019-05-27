@@ -24,5 +24,6 @@ func _process(delta):
 		if not vbox.has_node(player_name):
 			var label = template.duplicate()
 			label.visible = true
+			label.name = player_name
 			label.text = player_name
 			vbox.add_child(label)
