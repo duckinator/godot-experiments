@@ -25,4 +25,4 @@ func _process(delta):
 			var label = template.duplicate()
 			label.visible = true
 			label.text = player_name
-			vbox.add_node(label)
+			vbox.add_child(label)
