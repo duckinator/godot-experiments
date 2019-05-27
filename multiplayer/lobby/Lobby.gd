@@ -44,5 +44,6 @@ func peer_connected(id, info):
 
 func peer_disconnected(id, info):
 	print("PEER DISCONNECTED: " + info["name"])
-	if vbox.has_node(str(id)):
-		vbox.remove_child(get_node(str(id)))
+	for node in vbox.get_children():
+		if node.name == str(id):
+			vbox.remove_child(node)
