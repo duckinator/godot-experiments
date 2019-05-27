@@ -1,5 +1,6 @@
 extends Node
 
+# All the signals this script can emit.
 signal peer_connected
 signal peer_disconnected
 signal connection_failed
@@ -12,21 +13,26 @@ var remote_port = null
 var local_address = null
 var local_port = null
 
+# Default values.
 const DEFAULT_PORT = 9876
 const DEFAULT_MAX_PLAYERS = 20
 
+
 var players = {}
 
-var rng = RandomNumberGenerator.new()
-
-# Default network game settings -- player name is "Player<random number>"
-var settings = {}
+# Default network game settings -- actually populated in _ready().
+var settings = null
 
 func _ready():
+	var rng = RandomNumberGenerator.new()
 	rng.randomize()
+	
+	# Player names are formatted as "Player<random number>".
 	settings["name"] = "Player" + str(rng.randi_range(1, 9999))
 
 
+# Connect signals on the scene tree to functions in this file.
+# Some of those functions will then emit other signals.
 func setup():
 	var tree = get_tree()
 	tree.connect("network_peer_connected", self, "peer_connected")
@@ -35,7 +41,7 @@ func setup():
 	tree.connect("connection_failed", self, "connection_failed")
 	tree.connect("server_disconnected", self, "server_disconnected")
 
-# Forces the server to include itself in the list of players.
+# Forces the server to include itself in the (local) list of players.
 func add_self_if_needed():
 	if is_server():
 		register_player(1, settings)
@@ -123,21 +129,20 @@ func quit():
 	get_network_peer().close_connection()
 	set_network_peer(null)
 
-
+# Runs when each client connects.
+# Currently unused. register_player() emits the "peer_connected" event.
 func peer_connected(id):
-	# Runs when each client connects.
-	# Currently unused.
 	pass
 
+# Runs when a client disconnects.
 func peer_disconnected(id):
-	print(str(players[id]["name"]) + " disconnected.")
 	var info = players[id]
 	players.erase(id)
 	emit_signal("peer_disconnected", id, info)
 
+# Only called on clients, not server. Sends this clients ID to the server.
+# The server will then send it to everyone else.
 func connected_to_server():
-    # Only called on clients, not server. Send my ID and info to the server.
-	# The server will then send it to everyone else.
     rpc("register_player", get_unique_id(), settings)
 
 func connection_failed():
@@ -157,11 +162,5 @@ remote func register_player(id, info):
 		# Send _everyone else's_ info to the player.
 		for peer_id in players.keys():
 			rpc_id(id, "register_player", peer_id, players[peer_id])
-	
-	# The rest of the function is run on both clients and servers.
-	
-	print("PLAYERS:")
-	for peer_id in players.keys():
-		print("  " + str(players[peer_id]["name"]))
 	
 	emit_signal("peer_connected", id, info)
