@@ -31,3 +31,5 @@ material/0 = SubResource( 2 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -115 )
 mesh = SubResource( 4 )
 material/0 = null
+
+[node name="Players" type="Node" parent="."]

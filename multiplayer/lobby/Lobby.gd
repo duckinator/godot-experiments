@@ -34,7 +34,10 @@ func _ready():
 	Network.connect("server_disconnected", self, "server_disconnected")
 	add_existing_peers()
 	
-	start_button.connect("pressed", self, "start_game")
+	if Network.is_server():
+		start_button.connect("pressed", self, "start_game")
+	else:
+		start_button.visible = false
 
 func connection_failed():
 	popup("Failed to connect to server.")
@@ -78,6 +81,9 @@ func go_to_launch_screen():
 	Network.quit()
 	return get_tree().change_scene(LAUNCH_SCREEN_SCENE)
 
-func start_game():
-	Network.block_connections()
+remote func start_game():
+	if Network.is_server():
+		Network.block_connections()
+		for id in Network.players.keys():
+			rpc_id(id, "start_game")
 	return get_tree().change_scene(MAP_SCENE)
