@@ -1,8 +1,10 @@
 extends Control
 
 const LAUNCH_SCREEN_SCENE = "res://launchscreen/LaunchScreen.tscn"
+const MAP_SCENE = "res://Map.tscn"
 const FONT = preload("res://fonts/HackFont.tres")
 
+onready var start_button = $HBoxContainer/VBoxContainer/StartButton
 onready var vbox = $HBoxContainer/VBoxContainer/PlayersVBox
 onready var template = vbox.get_node("TemplateLabel")
 onready var server_information = $ServerInformation
@@ -31,6 +33,8 @@ func _ready():
 	Network.connect("connection_failed", self, "connection_failed")
 	Network.connect("server_disconnected", self, "server_disconnected")
 	add_existing_peers()
+	
+	start_button.connect("pressed", self, "start_game")
 
 func connection_failed():
 	popup("Failed to connect to server.")
@@ -73,3 +77,7 @@ func peer_disconnected(id, _info):
 func go_to_launch_screen():
 	Network.quit()
 	return get_tree().change_scene(LAUNCH_SCREEN_SCENE)
+
+func start_game():
+	Network.block_connections()
+	return get_tree().change_scene(MAP_SCENE)
